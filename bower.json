@@ -10,6 +10,8 @@
     "angular-route": "latest",
     "bootstrap": "3.1.1",
     "angular-bootstrap": "0.11.0",
-    "angular-ui-router": "#master"
+    "angular-ui-router": "#master",
+    "moment": "~2.8.3",
+    "moment-duration-format": "~1.3.0"
   }
 }

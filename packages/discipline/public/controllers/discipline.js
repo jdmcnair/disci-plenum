@@ -35,19 +35,6 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
 		return member.choreTimes.reduce(sum, 0);
 	};
 
-  $scope.getTimeFromSeconds = function(totalSec) {
-    //var totalSec = seconds;
-    var hours = parseInt( totalSec / 3600 ) % 24;
-    var minutes = parseInt( totalSec / 60 ) % 60;
-    var seconds = totalSec % 60;
-
-    var result = (hours < 10 ? '0' + hours : hours) + 
-        ':' + (minutes < 10 ? '0' + minutes : minutes) + 
-        ':' + (seconds  < 10 ? '0' + seconds : seconds);
-
-    return result;
-  };
-
 	function sum(a,b){
     console.log(a + ' b: ' + b.remainingDuration);
 		return a + b.remainingDuration;

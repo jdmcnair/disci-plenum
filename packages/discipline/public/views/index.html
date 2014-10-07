@@ -10,8 +10,8 @@
     <tbody>
       <tr ng-repeat="member in members">
         <td>{{member.name}}</td>
-        <td>{{ getTimeFromSeconds(choreSum(member)) }}</td>
-        <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | date:'medium' }}</span></td>
+        <td>{{ choreSum(member) | duration }}</td>
+        <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span></td>
         <td>
           <div class="btn-group">
             <a class="btn btn-default" data-ng-click="toggleActivity(member)">
@@ -40,8 +40,8 @@
       <tr ng-repeat="choreTime in choreTimes">
         <td>{{ choreTime.learner.name }}</td>
         <td><a data-ng-href="#!/choreTimes/{{choreTime._id}}">{{choreTime.reason}}</a></td>
-        <td>{{ choreTime.remainingDuration }}</td>
-        <td>{{choreTime.created | date:'medium'}}</td>
+        <td>{{ choreTime.remainingDuration | duration }}</td>
+        <td>{{choreTime.created | timeFromNow}}</td>
         <td>{{choreTime.teacher.name}}</td>
         <td>
           <span data-ng-if="hasAuthorization(choreTime)">

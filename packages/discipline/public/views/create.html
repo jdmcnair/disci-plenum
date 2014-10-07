@@ -1,0 +1,35 @@
+<section data-ng-controller="DisciplineController"  data-ng-init="findMember()">
+  <h2>Add chore for {{member.name}}</h2>
+
+  <form name="choreTimeForm" class="form-horizontal col-md-6" role="form" data-ng-submit="create(choreTimeForm.$valid)" novalidate>
+    <div class="form-group" ng-class="{ 'has-error' : submitted && choreTimeForm.reason.$invalid }">
+      <label mean-token="'create-reason'" class="col-md-3 control-label">Reason</label>
+      <div class="col-md-9">
+        <select name="reason" class="form-control" data-ng-model="reason" id="reason" required
+          ng-options="reason for reason in choreReasons">
+          <option style="display:none" value="">Select a reason...</option>
+        </select>
+        <div ng-show="submitted && choreTimeForm.reason.$invalid" class="help-block">
+          <p ng-show="choreTimeForm.reason.$error.required">Reason is required</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error' : submitted && choreTimeForm.secondsDuration.$invalid }">
+      <label mean-token="'create-secondsDuration'" class="col-md-3 control-label">Duration</label>
+      <div class="col-md-9">
+        <select name="secondsDuration" class="form-control" data-ng-model="secondsDuration" id="secondsDuration" required
+          ng-options="duration.value as duration.display for duration in durations">
+          <option style="display:none" value="">Select a duration...</option>
+        </select>
+        <div ng-show="submitted && choreTimeForm.secondsDuration.$invalid" class="help-block">
+          <p ng-show="choreTimeForm.secondsDuration.$error.required">Duration is required</p>
+        </div>
+      </div>
+    </div>    
+    <div class="form-group">
+      <div class="col-md-offset-3 col-md-9">
+        <button type="submit" class="btn btn-info">Submit</button>
+      </div>
+    </div>
+  </form>
+</section>

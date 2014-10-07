@@ -1,0 +1,60 @@
+<div class="" data-ng-controller="DisciplineController">
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <th>Family Member</th>
+      <th>Remaining Chores</th>
+      <th>Current Chore Session</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="member in members">
+        <td>{{member.name}}</td>
+        <td>{{ getTimeFromSeconds(choreSum(member)) }}</td>
+        <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | date:'medium' }}</span></td>
+        <td>
+          <div class="btn-group">
+            <a class="btn btn-default" data-ng-click="toggleActivity(member)">
+              <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
+            </a>
+            <a class="btn btn-default" ui-sref="create choreTime({ memberId: member._id })">
+              <i class="glyphicon glyphicon-plus"></i>
+              Add
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <th>Family Member</th>
+      <th>Reason</th>
+      <th>Duration</th>
+      <th>Date Added</th>
+      <th>Added By</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="choreTime in choreTimes">
+        <td>{{ choreTime.learner.name }}</td>
+        <td><a data-ng-href="#!/choreTimes/{{choreTime._id}}">{{choreTime.reason}}</a></td>
+        <td>{{ choreTime.remainingDuration }}</td>
+        <td>{{choreTime.created | date:'medium'}}</td>
+        <td>{{choreTime.teacher.name}}</td>
+        <td>
+          <span data-ng-if="hasAuthorization(choreTime)">
+            <a class="btn" href="/#!/choreTimes/{{choreTime._id}}/edit">
+              <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn" data-ng-click="remove(choreTime);">
+              <i class="glyphicon glyphicon-trash"></i>
+            </a>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table> 
+</div>
+

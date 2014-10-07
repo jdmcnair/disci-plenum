@@ -27,7 +27,6 @@ exports.choreTime = function(req, res, next, id) {
  * Create an choreTime
  */
 exports.create = function(req, res) {
-  //console.log('got here!');
 
   var choreTime = new ChoreTime(req.body);
   choreTime.teacher = req.user;
@@ -46,17 +45,6 @@ exports.create = function(req, res) {
       learner.save();
     });
 
-    // ChoreTime.load(choreTime._id, function(err, ct) {
-    //   // if (err) return next(err);
-    //   // if (!choreTime) return next(new Error('Failed to load choreTime ' + id));
-    //   console.log(ct);
-    // ct.learner.choreTimes.push(choreTime._id);
-    //   // next();
-    // });
-
-    // console.log(choreTime);
-
-    //choreTime.load();
     res.json(choreTime);
 
   });
@@ -155,8 +143,6 @@ function updateChoreTimesForSession(choreTimes, session){
       session.contributions.push(contribution);
       choreTime.save();
       session.save();
-
-      //secondsDuration = secondsDuration - choreTime.secondsDuration;
     }
   });
 
@@ -231,12 +217,9 @@ exports.stopChores = function(req, res) {
  * list chore sessions by member
  */
 exports.getOpenSessions = function(req, res) {
-  //console.log('in getOpenSessions, memberId: ' + req); //.memberId);
-  //console.log(req.member._id); //.memberId);
   ChoreSession
     .find({ learner: req.member._id, stop: null })
     .sort('-created')
-    //.populate('teacher', 'name username')
     .populate('learner', 'name')
     .exec(function(err, choreSessions) {
       if (err) {

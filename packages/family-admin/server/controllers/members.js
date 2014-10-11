@@ -104,7 +104,7 @@ exports.all = function(req, res) {
  * List of Articles
  */
 exports.allWithChores = function(req, res) {
-  Member.find().sort('-created')
+  Member.find({ isParent: false }).sort('-created')
   .populate('user', 'name username')
   .populate('choreTimes', 'reason secondsDuration remainingDuration')
   .populate('currentSession', 'start')

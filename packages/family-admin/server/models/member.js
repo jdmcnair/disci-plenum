@@ -24,6 +24,11 @@ var MemberSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  isParent: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   choreTimes: [{
     type: Schema.ObjectId,
     ref: 'ChoreTime'

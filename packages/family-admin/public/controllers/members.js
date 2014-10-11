@@ -16,7 +16,8 @@ angular.module('mean.family-admin').controller('MembersController', ['$scope', '
     $scope.create = function(isValid) {
       if (isValid) {
         var member = new Members({
-          name: this.name
+          name: this.name,
+          isParent: this.isParent
         });
         member.$save(function(response) {
           //$location.path('/familyAdmin/members/' + response._id);

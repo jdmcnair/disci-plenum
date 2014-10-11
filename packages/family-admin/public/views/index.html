@@ -1,28 +1,42 @@
 <div class="" data-ng-controller="FamilyAdminController" data-ng-init="find()">
 
-  <ul class="members unstyled">
-    <li data-ng-repeat="member in members">
-      <span>{{member.created | date:'medium'}}</span> /
-      <!-- <span>{{member.name}}</span> -->
-      <h2>
-        <a data-ng-href="#!/members/{{member._id}}">{{member.name}}</a>
-        <span data-ng-if="hasAuthorization(member)">
-          <a class="btn" href="/#!/members/{{member._id}}/edit">
-            <i class="glyphicon glyphicon-edit"></i>
-          </a>
-          <a class="btn" data-ng-click="remove(member);">
-            <i class="glyphicon glyphicon-trash"></i>
-          </a>
-        </span>
-      </h2>
-      <div>{{member.content}}</div>
-    </li>
-  </ul>
-  <h1 data-ng-show="!members || members.length">
-    Yep, members. <br> Why don't you <a ui-sref="create member">Add More</a>?
-  </h1>  
-  <h1 data-ng-hide="!members || members.length">
-    No members yet. <br> Why don't you <a ui-sref="create member">Create One</a>?
-  </h1>  
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <th>Family Member</th>
+      <th>Role</th>
+      <th>Actions</th>
+      <th>Creation Date</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="member in members">
+        <td>
+          <a data-ng-href="#!/members/{{member._id}}">{{member.name}}</a>
+        </td>
+        <td>{{member.isParent}}</td>
+        <td>
+          <div class="btn-group" data-ng-if="hasAuthorization(member)">
+            <a class="btn btn-default" href="/#!/members/{{member._id}}/edit">
+              <i class="glyphicon glyphicon-edit"></i>
+              Edit
+            </a>
+            <a class="btn btn-default" data-ng-click="remove(member);">
+              <i class="glyphicon glyphicon-trash"></i>
+            </a>
+          </div>
+        </td>
+        <td>{{member.created | date:'medium'}}</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <div data-ng-show="!members || members.length">
+            Why don't you <a ui-sref="create member">create another</a>?
+          </div>  
+          <div data-ng-hide="!members || members.length">
+            No members yet... Why don't you <a ui-sref="create member">create one</a>?
+          </div>  
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 

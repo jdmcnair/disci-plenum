@@ -14,7 +14,7 @@
         <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span></td>
         <td>
           <div class="btn-group">
-            <a class="btn btn-default" data-ng-click="toggleActivity(member)">
+            <a ng-if="choreSum(member)" class="btn btn-default" data-ng-click="toggleActivity(member)">
               <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
             </a>
             <a class="btn btn-default" ui-sref="create choreTime({ memberId: member._id })">

@@ -97,7 +97,7 @@ exports.show = function(req, res) {
  * List of ChoreTimes
  */
 exports.all = function(req, res) {
-  ChoreTime.find().sort('-created')
+  ChoreTime.find({ remainingDuration: { $gt: 0 } }).sort('-created')
   .populate('teacher', 'name username')
   .populate('learner', 'name username')
   .exec(function(err, choreTimes) {

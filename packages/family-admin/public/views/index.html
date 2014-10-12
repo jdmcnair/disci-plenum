@@ -12,7 +12,7 @@
         <td>
           <a data-ng-href="#!/members/{{member._id}}">{{member.name}}</a>
         </td>
-        <td>{{member.isParent}}</td>
+        <td>{{member.isParent ? 'Parent' : 'Child'}}</td>
         <td>
           <div class="btn-group" data-ng-if="hasAuthorization(member)">
             <a class="btn btn-default" href="/#!/members/{{member._id}}/edit">

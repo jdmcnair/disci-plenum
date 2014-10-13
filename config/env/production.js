@@ -30,27 +30,27 @@ module.exports = {
     name: 'DisciPlenum'
   },
   facebook: {
-    clientID: 'APP_ID',
+    clientID: 'DEFAULT_APP_ID',
     clientSecret: 'APP_SECRET',
     callbackURL: 'http://localhost:3000/auth/facebook/callback'
   },
   twitter: {
-    clientID: 'CONSUMER_KEY',
+    clientID: 'DEFAULT_CONSUMER_KEY',
     clientSecret: 'CONSUMER_SECRET',
     callbackURL: 'http://localhost:3000/auth/twitter/callback'
   },
   github: {
-    clientID: 'APP_ID',
+    clientID: 'DEFAULT_APP_ID',
     clientSecret: 'APP_SECRET',
     callbackURL: 'http://localhost:3000/auth/github/callback'
   },
   google: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
+    clientID: '452243225582-bvmbjdv6ne9lub7tv2uc807gbm0i9ouh.apps.googleusercontent.com',
+    clientSecret: 'RmQQ2puYfvGOcofg5Fz9OkAa',
+    callbackURL: 'http://thawing-springs-7124.herokuapp.com/auth/google/callback'
   },
   linkedin: {
-    clientID: 'API_KEY',
+    clientID: 'DEFAULT_API_KEY',
     clientSecret: 'SECRET_KEY',
     callbackURL: 'http://localhost:3000/auth/linkedin/callback'
   },

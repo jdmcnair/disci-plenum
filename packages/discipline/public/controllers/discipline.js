@@ -16,7 +16,9 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
     	{ display: '45 minutes', value: 2700 },
     	{ display: '1 hour', value: 3600 },
     	{ display: '1.5 hours', value: 5400 },
-    	{ display: '2 hours', value: 7200 },
+      { display: '2 hours', value: 7200 },
+      { display: '4 hours', value: 14400 },
+    	{ display: '6 hours', value: 21600 },
     ];
 
     function loadMembers(){

@@ -6,7 +6,7 @@ module.exports = {
     debug: true
   },
   app: {
-    name: 'MEAN - FullStack JS - Development'
+    name: 'DisciPlenum - Development'
   },
   facebook: {
     clientID: 'DEFAULT_APP_ID',
@@ -24,8 +24,8 @@ module.exports = {
     callbackURL: 'http://localhost:3000/auth/github/callback'
   },
   google: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
+    clientID: '452243225582-hqdqgv6487v50j700sg97neuojtk42pd.apps.googleusercontent.com',
+    clientSecret: 'INoXEAxunADpQi5kmzVPXkZL',
     callbackURL: 'http://localhost:3000/auth/google/callback'
   },
   linkedin: {

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.family-admin').controller('MembersController', ['$scope', '$stateParams', '$location', 'Global', 'FamilyAdmin', 'Members',
-  function($scope, $stateParams, $location, Global, FamilyAdmin, Members) {
+angular.module('mean.family-admin').controller('MembersController', ['$scope', '$stateParams', '$location', '$http', 'Global', 'FamilyAdmin', 'Members',
+  function($scope, $stateParams, $location, $http, Global, FamilyAdmin, Members) {
     $scope.global = Global;
 
     $scope.hasAuthorization = function(member) {
@@ -21,7 +21,7 @@ angular.module('mean.family-admin').controller('MembersController', ['$scope', '
         });
         member.$save(function(response) {
           //$location.path('/familyAdmin/members/' + response._id);
-          $location.path('/familyAdmin/example');
+          $location.path('/familyAdmin/index');
         });
 
         this.name = '';
@@ -51,6 +51,26 @@ angular.module('mean.family-admin').controller('MembersController', ['$scope', '
         });
       } else {
         $scope.submitted = true;
+      }
+    };
+
+    $scope.claimMember = function(isValid) {
+      var member = $scope.member;
+
+      if (isValid && member) {
+        $http.post('/familyMember', { member: member }).
+          success(function(data, status, headers, config) {
+            $location.path('members/' + member._id);
+          }).
+          error(function(data, status, headers, config) {
+            $location.path('familyAdmin/setup');
+          });
+      } else {
+        Members.get({
+          memberId: this.key
+        }, function(member) {
+          $scope.member = member;
+        });
       }
     };
   }

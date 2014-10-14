@@ -14,7 +14,8 @@ var hasAuthorization = function(req, res, next) {
 module.exports = function(FamilyAdmin, app, auth, database) {
 
   app.route('/familyMember')
-    .get(auth.requiresLogin, members.getFamilyMembership);
+    .get(auth.requiresLogin, members.getFamilyMembership)
+    .post(auth.requiresLogin, members.createMemberClaim);
 
   app.route('/members')
     .get(auth.requiresLogin, members.isFamilyMember, members.all)
@@ -23,7 +24,7 @@ module.exports = function(FamilyAdmin, app, auth, database) {
     .get(auth.requiresLogin, members.isFamilyMember, members.allWithChores)
     .post(auth.requiresLogin, members.isFamilyMember, members.create);    
   app.route('/members/:memberId')
-    .get(auth.requiresLogin, members.isFamilyMember, members.show)
+    .get(auth.requiresLogin, members.show)
     .put(auth.requiresLogin, hasAuthorization, members.isFamilyMember, members.update)
     .delete(auth.requiresLogin, hasAuthorization, members.isFamilyMember, members.destroy);
 

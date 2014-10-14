@@ -5,8 +5,8 @@ angular.module('mean.family-admin').controller('FamilyAdminController', ['$scope
     $scope.global = Global;
 
     $scope.hasAuthorization = function(member) {
-      if (!member || !member.user) return false;
-      return $scope.global.isAdmin || member.user._id === $scope.global.user._id;
+      if (!member || !member.createdByUser) return false;
+      return $scope.global.isAdmin || member.createdByUser._id === $scope.global.user._id;
     };
 
     $scope.package = {

@@ -25,16 +25,18 @@ exports.member = function(req, res, next, id) {
 /**
  * Find member by user id
  */
-exports.getFamilyMembership = function(req, res, next) {
+exports.getFamilyMembership = function(req, res) {
   var id = req.user.id;
 
   Member.loadFromUserId(id, function(err, member) {
     console.log('inner id: ' + id);
 
-    if (err) return next(err);
-    res.json(member);
-
-    next();
+    if (err) res.json(500, {
+        error: 'Cannot save the member'
+      });
+    else {
+      res.json(member ? member : 0);
+    }
   });
 };
 
@@ -66,7 +68,7 @@ exports.isFamilyMember = function(req, res, next) {
  */
 exports.create = function(req, res) {
   var member = new Member(req.body);
-  member.user = req.user;
+  member.createdByUser = req.user;
   member.family = req.currentFamily;
 
   member.save(function(err) {
@@ -179,4 +181,37 @@ exports.createFamily = function(req, res) {
     res.json(family);
 
   });
+};
+
+/**
+ * Create an member
+ */
+exports.createMemberClaim = function(req, res) {
+  console.log('inside createMemberClaim');
+
+  //console.log(req);
+
+  var memberId = req.body.member._id;
+
+  Member.load(memberId, function(err, member) {
+    if (err || !member) {
+      res.json(500, {
+        error: 'Cannot claim the member'
+      });
+    }
+
+    member.user = req.user;
+
+    member.save(function(err) {
+      console.log(err);
+      if (err) {
+        res.json(500, {
+          error: 'Cannot claim the member'
+        });
+      }
+      else {
+        res.json(member);
+      }
+    }); 
+  });  
 };

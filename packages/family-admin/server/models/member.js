@@ -29,6 +29,11 @@ var MemberSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  createdByUser: {
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: true
+  },
   isParent: {
     type: Boolean,
     required: true,

@@ -20,6 +20,11 @@ var MemberSchema = new Schema({
     required: true,
     trim: true
   },
+  family: {
+    type: Schema.ObjectId,
+    ref: 'Family',
+    required: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'
@@ -52,7 +57,19 @@ MemberSchema.path('name').validate(function(name) {
 MemberSchema.statics.load = function(id, cb) {
   this.findOne({
     _id: id
-  }).populate('user', 'name username').exec(cb);
+  })
+  .populate('user', 'name username')
+  .populate('family', 'name')
+  .exec(cb);
+};
+
+MemberSchema.statics.loadFromUserId = function(userId, cb) {
+  this.findOne({
+    user: userId
+  })
+  .populate('user', 'name username')
+  .populate('family', 'name')
+  .exec(cb);
 };
 
 mongoose.model('Member', MemberSchema);

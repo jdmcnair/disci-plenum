@@ -12,6 +12,28 @@ var mongoose = require('mongoose'),
 
 
 /**
+ * Find member by user id
+ */
+exports.isFamilyMember = function(req, res, next) {
+  var id = req.user.id;
+
+  //console.log('id: ' + id);
+
+  Member.loadFromUserId(id, function(err, member) {
+    //console.log('inner id: ' + id);
+
+    if (err) return next(err);
+    if (!member || !member.family) return next(new Error('Failed to load member and family from user ' + id));
+
+    //console.log('member: ' + member.name + member.family.name);
+
+    req.currentMember = member;
+    req.currentFamily = member.family;
+    next();
+  });
+};
+
+/**
  * Find choreTime by id
  */
 exports.choreTime = function(req, res, next, id) {
@@ -97,17 +119,26 @@ exports.show = function(req, res) {
  * List of ChoreTimes
  */
 exports.all = function(req, res) {
-  ChoreTime.find({ remainingDuration: { $gt: 0 } }).sort('-created')
-  .populate('teacher', 'name username')
-  .populate('learner', 'name username')
-  .exec(function(err, choreTimes) {
-    if (err) {
-      return res.json(500, {
-        error: 'Cannot list the choreTimes'
-      });
-    }
-    res.json(choreTimes);
+  //console.log(req.currentFamily.name);
+  var familyId = req.currentFamily._id;
 
+  Member.find({family: familyId}).exec(function(err, members){
+    var ids = members.map(function(member) { return member._id; });
+
+    ChoreTime
+    .find({ learner: { $in: ids}, remainingDuration: { $gt: 0 } })
+    .sort('-created')
+    .populate('teacher', 'name username')
+    .populate('learner', 'name username')
+    .exec(function(err, choreTimes) {
+      if (err) {
+        return res.json(500, {
+          error: 'Cannot list the choreTimes'
+        });
+      }
+      res.json(choreTimes);
+
+    });
   });
 };
 

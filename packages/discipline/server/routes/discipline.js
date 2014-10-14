@@ -12,9 +12,11 @@ var hasAuthorization = function(req, res, next) {
 
 module.exports = function(ChoreTimes, app, auth) {
 
+  //console.log(members);
+
   app.route('/choreTimes')
-    .get(choreTimes.all)
-    .post(auth.requiresLogin, choreTimes.create);
+    .get(choreTimes.isFamilyMember, choreTimes.all)
+    .post(auth.requiresLogin, choreTimes.isFamilyMember, choreTimes.create);
   app.route('/choreTimes/:choreTimeId')
     .get(choreTimes.show)
     .put(auth.requiresLogin, hasAuthorization, choreTimes.update)

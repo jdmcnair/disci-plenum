@@ -7,7 +7,19 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
       name: 'discipline'
     };
 
-    $scope.choreReasons = ['Disobedience', 'Grades', 'Attitude'];
+    function parentOrAdmin() {
+      return $scope.global.isAdmin || $scope.global.member.isParent;
+    }
+
+    $scope.parentOrAdmin = parentOrAdmin;
+
+    $scope.hasAuthorization = function(member) {
+      if (!member) return false;
+      return parentOrAdmin() || $scope.global.member._id === member._id;
+    };
+
+    $scope.choreReasons = ['Disobedience', 'Grades', 'Attitude', 'Disrespect', 'Negativity', 'Lying', 'Carelessness']; //, 'Lack of Accountability'];
+
     $scope.durations = [
     	{ display: '5 minutes', value: 300 },
     	{ display: '10 minutes', value: 600 },
@@ -42,7 +54,7 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
 		return a + b.remainingDuration;
 	}
 
-    $scope.hasAuthorization = function(choreTime) {
+    $scope.hasChoreAuthorization = function(choreTime) {
       if (!choreTime || !choreTime.teacher) return false;
       return $scope.global.isAdmin || choreTime.teacher._id === $scope.global.user._id;
     };

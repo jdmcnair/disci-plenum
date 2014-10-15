@@ -13,11 +13,11 @@
         <td>{{ choreSum(member) | duration }}</td>
         <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span></td>
         <td>
-          <div class="btn-group">
+          <div ng-if="hasAuthorization(member)" class="btn-group">
             <a ng-if="choreSum(member)" class="btn btn-default" data-ng-click="toggleActivity(member)">
               <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
             </a>
-            <a class="btn btn-default" ui-sref="create choreTime({ memberId: member._id })">
+            <a ng-if="parentOrAdmin()" class="btn btn-default" ui-sref="create choreTime({ memberId: member._id })">
               <i class="glyphicon glyphicon-plus"></i>
               Add
             </a>
@@ -44,7 +44,7 @@
         <td>{{choreTime.created | timeFromNow}}</td>
         <td>{{choreTime.teacher.name}}</td>
         <td>
-          <span data-ng-if="hasAuthorization(choreTime)">
+          <span data-ng-if="hasChoreAuthorization(choreTime)">
             <a class="btn" href="/#!/choreTimes/{{choreTime._id}}/edit">
               <i class="glyphicon glyphicon-edit"></i>
             </a>

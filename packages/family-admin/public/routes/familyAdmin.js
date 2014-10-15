@@ -24,12 +24,14 @@ angular.module('mean.family-admin').config(['$stateProvider',
     };
 
     // Check if the user is connected
-    var checkFamilyMembership = function($q, $timeout, $http, $location) {
+    var checkFamilyMembership = function($q, $timeout, $http, $location, Global) {
       // Initialize a new promise
       var deferred = $q.defer();
 
       // Make an AJAX call to check if the user is logged in
       $http.get('/familyMember').success(function(member) {
+        Global.member = member;
+        
         // family member
         if (member && member.family) {
           $timeout(deferred.resolve);

@@ -143,10 +143,8 @@ exports.all = function(req, res) {
 };
 
 function updateChoreTimesForSession(choreTimes, session){
-  session.stop = Date.now();
-  session.save();
 
-  var sessionDuration = Math.round((session.stop - session.start) / 1000);
+  var sessionDuration = session.secondsDuration;
 
   _(choreTimes).forEach(function(choreTime){
     console.log('remaining duration: ' + sessionDuration);
@@ -158,7 +156,7 @@ function updateChoreTimesForSession(choreTimes, session){
         contribution.secondsDuration = sessionDuration;
         choreTime.remainingDuration = choreTime.remainingDuration - sessionDuration;
         session.isFullyContributed = true;
-        sessionDuration = 0;
+        session.remainingDuration = sessionDuration = 0;
       } else {
         contribution.secondsDuration = choreTime.remainingDuration;
         session.remainingDuration = sessionDuration = sessionDuration - choreTime.remainingDuration;
@@ -191,6 +189,10 @@ function stopMemberChores(memberId, callback) {
   .exec(function(err, member){
     var currentSession = member.currentSession;
     if(currentSession) {
+      currentSession.stop = Date.now();
+      currentSession.save();
+      currentSession.secondsDuration = Math.round((currentSession.stop - currentSession.start) / 1000);
+
       updateChoreTimesForSession(member.choreTimes, currentSession);
     }
 
@@ -260,4 +262,38 @@ exports.getOpenSessions = function(req, res) {
       }
       res.json(choreSessions);
     });
+};
+
+/**
+ * Subtracts an amount from chore totals
+ */
+exports.subtractFromChores = function(req, res) {
+
+  var choreSession = new ChoreSession();
+  choreSession.teacher = req.user;
+  choreSession.learner = req.body.memberId;
+  choreSession.start = choreSession.stop = Date.now();
+  choreSession.secondsDuration = req.body.subtractedDuration * 60;
+
+  choreSession.save(function(err) {
+    if (err) {
+      console.log(err);
+      return res.json(500, {
+        error: 'Cannot save the choreSession'
+      });
+    }
+
+    Member
+    .findOne({ _id: choreSession.learner })
+    .populate({
+      path: 'choreTimes',
+      match: { isComplete: false }
+    })
+    .populate('currentSession')
+    .exec(function(err, member){
+        updateChoreTimesForSession(member.choreTimes, choreSession);
+        res.json(choreSession);
+    });
+
+  });   
 };

@@ -17,6 +17,7 @@ module.exports = function(ChoreTimes, app, auth) {
   app.route('/choreTimes')
     .get(choreTimes.isFamilyMember, choreTimes.all)
     .post(auth.requiresLogin, choreTimes.isFamilyMember, choreTimes.create);
+
   app.route('/choreTimes/:choreTimeId')
     .get(choreTimes.show)
     .put(auth.requiresLogin, hasAuthorization, choreTimes.update)
@@ -26,6 +27,9 @@ module.exports = function(ChoreTimes, app, auth) {
     .get(choreTimes.getOpenSessions)
     .put(auth.requiresLogin, hasAuthorization, choreTimes.startChores)
     .delete(auth.requiresLogin, hasAuthorization, choreTimes.stopChores); 
+
+  app.route('/choreSessions/:memberId/:subtractedDuration')
+    .put(auth.requiresLogin, hasAuthorization, choreTimes.isFamilyMember, choreTimes.subtractFromChores); 
 
   // Finish with setting up the choreTimeId param
   app.param('choreTimeId', choreTimes.choreTime);

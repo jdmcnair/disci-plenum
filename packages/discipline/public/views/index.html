@@ -4,41 +4,44 @@
       <th>Family Member</th>
       <th>Remaining Chores</th>
       <th>Current Chore Session</th>
-      <th>Actions</th>
     </thead>
     <tbody>
       <tr ng-repeat="member in members">
         <td>{{member.name}}</td>
         <td>
-          <div ng-if="choreSum(member)" class="btn-group" dropdown >
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-              {{ choreSum(member) | duration }} <span class="caret"></span>
+          <div class="btn-group" dropdown >
+            <a ng-if="parentOrAdmin()" class="btn btn-primary" ui-sref="create choreTime({ memberId: member._id })">
+              <i class="glyphicon glyphicon-plus"></i>
+              Add
+            </a>
+            <button ng-if="choreSum(member)" type="button" class="btn btn-primary" >
+              {{ choreSum(member) | duration }}
             </button>
-            <ul class="dropdown-menu" role="menu">
+            <button ng-if="choreSum(member)" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              <i class="caret"></i>
+              <i class="glyphicon glyphicon-arrow-down"></i>
+            </button>
+            <ul ng-if="choreSum(member)"  class="dropdown-menu" role="menu">
               <li><a href ng-click="subtractTimeAmount(member,1)">Reduce by 1</a></li>
               <li><a href ng-click="subtractTimeAmount(member,5)">Reduce by 5</a></li>
-              <li class="divider"></li>
-              <li>
-                <a ui-sref="create choreTime({ memberId: member._id })">
-                  <i class="glyphicon glyphicon-plus"></i>
-                  Add
-                </a>
-              </li>
+              <li><a href ng-click="subtractTimeAmount(member,10)">Reduce by 10</a></li>
             </ul>
           </div>        
         </td>
         <td>
-          <span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span>
-        </td>
-        <td>
           <div ng-if="hasAuthorization(member)" class="btn-group">
-            <a ng-if="choreSum(member)" class="btn btn-default" data-ng-click="toggleActivity(member)">
+            <a ng-if="choreSum(member)" class="btn btn-primary" data-ng-click="toggleActivity(member)">
               <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
             </a>
-            <a ng-if="parentOrAdmin()" class="btn btn-default" ui-sref="create choreTime({ memberId: member._id })">
+            <button type="button" class="btn btn-primary" ng-if='member.currentSession'>
+              Begun {{ member.currentSession.start | timeFromNow }}
+            </button>
+            <button type="button" class="btn btn-primary" 
+                ng-if='member.currentSession && parentOrAdmin()'
+                ng-click='addStallingTime(member._id)'>
               <i class="glyphicon glyphicon-plus"></i>
-              Add
-            </a>
+              <i class="glyphicon glyphicon-time"></i>
+            </button>
           </div>
         </td>
       </tr>

@@ -59,15 +59,21 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
       return $scope.global.isAdmin || choreTime.teacher._id === $scope.global.user._id;
     };
 
+    function createChoreTime(memberId, secondsDuration, reason, callback) {
+      var choreTime = new ChoreTime({
+        reason: reason,
+        secondsDuration: secondsDuration,
+        learner: memberId
+      });
+      choreTime.$save(function(response) {
+        callback();
+      });      
+    }
+
     $scope.create = function(isValid) {
       if (isValid) {
-        var choreTime = new ChoreTime({
-          reason: this.reason,
-          secondsDuration: this.secondsDuration,
-          learner: $scope.member._id
-        });
-        choreTime.$save(function(response) {
-          $location.path('discipline/index'); // ' + response._id);
+        createChoreTime($scope.member._id, this.secondsDuration, this.reason, function(){
+          $location.path('discipline/index');
         });
 
         this.reason = '';
@@ -76,6 +82,10 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
         $scope.submitted = true;
       }
     };	
+
+    $scope.addStallingTime = function(memberId) {
+      createChoreTime(memberId, 300, 'Stalling', loadMembers);
+    };
 
     $scope.findMember = function() {
       Members.get({

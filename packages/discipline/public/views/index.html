@@ -1,5 +1,4 @@
-<div class="" data-ng-controller="DisciplineController">
-
+<div>
   <table class="table table-bordered table-striped table-hover">
     <thead>
       <th>Family Member</th>
@@ -10,8 +9,27 @@
     <tbody>
       <tr ng-repeat="member in members">
         <td>{{member.name}}</td>
-        <td>{{ choreSum(member) | duration }}</td>
-        <td><span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span></td>
+        <td>
+          <div ng-if="choreSum(member)" class="btn-group" dropdown >
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              {{ choreSum(member) | duration }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href ng-click="subtractTimeAmount(member,1)">Reduce by 1</a></li>
+              <li><a href ng-click="subtractTimeAmount(member,5)">Reduce by 5</a></li>
+              <li class="divider"></li>
+              <li>
+                <a ui-sref="create choreTime({ memberId: member._id })">
+                  <i class="glyphicon glyphicon-plus"></i>
+                  Add
+                </a>
+              </li>
+            </ul>
+          </div>        
+        </td>
+        <td>
+          <span ng-if='member.currentSession'>Begun {{ member.currentSession.start | timeFromNow }}</span>
+        </td>
         <td>
           <div ng-if="hasAuthorization(member)" class="btn-group">
             <a ng-if="choreSum(member)" class="btn btn-default" data-ng-click="toggleActivity(member)">

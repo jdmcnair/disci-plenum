@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.discipline').controller('DisciplineController', ['$scope', '$location', '$stateParams', 'Global', 'Discipline', 'ChoreTime', 'Members', 'MemberChores', 'ChoreSessions',
-  function($scope, $location, $stateParams, Global, Discipline, ChoreTime, Members, MemberChores, ChoreSessions) {
+angular.module('mean.discipline').controller('DisciplineController', ['$scope', '$location', '$stateParams', '$http', 'Global', 'Discipline', 'ChoreTime', 'Members', 'MemberChores', 'ChoreSessions',
+  function($scope, $location, $stateParams, $http, Global, Discipline, ChoreTime, Members, MemberChores, ChoreSessions) {
     $scope.global = Global;
     $scope.package = {
       name: 'discipline'
@@ -50,7 +50,7 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
 	};
 
 	function sum(a,b){
-    console.log(a + ' b: ' + b.remainingDuration);
+    //console.log(a + ' b: ' + b.remainingDuration);
 		return a + b.remainingDuration;
 	}
 
@@ -112,6 +112,20 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
           memberId: member._id
         }, loadMembers);      
       }
+    };
+
+    $scope.subtractTimeAmount = function(member, minutesDuration) {
+      console.log('bad test');
+
+      var url = '/choreSessions/' + member._id + '/' + minutesDuration;
+
+      $http.put(url, { memberId: member._id, subtractedDuration: minutesDuration }).
+        success(function(data, status, headers, config) {
+          loadMembers();
+        }).
+        error(function(data, status, headers, config) {
+          loadMembers();
+        });      
     };
   }
 ]);

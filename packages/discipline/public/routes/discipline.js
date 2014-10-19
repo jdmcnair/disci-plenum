@@ -53,7 +53,8 @@ angular.module('mean.discipline').config(['$stateProvider',
       resolve: {
         loggedin: checkLoggedin,
         checkFamilyMembership: checkFamilyMembership
-      }
+      },
+      controller: 'DisciplineController'
     })
   	.state('create choreTime', {
   		url: '/discipline/create/:memberId',

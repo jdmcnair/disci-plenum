@@ -63,6 +63,15 @@ angular.module('mean.discipline').config(['$stateProvider',
   		  loggedin: checkLoggedin,
         checkFamilyMembership: checkFamilyMembership
   		}
-  	});
+  	})
+    .state('ChoreList', {
+      url: '/discipline/list/:memberId',
+      templateUrl: 'discipline/views/list.html',
+      resolve: {
+        loggedin: checkLoggedin,
+        checkFamilyMembership: checkFamilyMembership
+      },
+      controller: 'ChoreListController'
+    });
   }
 ]);

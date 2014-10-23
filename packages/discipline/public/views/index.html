@@ -43,6 +43,9 @@
               <i class="glyphicon glyphicon-plus"></i>
               Add
             </a>
+            <a ng-if="hasAuthorization(member)" class="btn btn-primary" ui-sref="ChoreList({ memberId: member._id })">
+              <i class="glyphicon glyphicon-list-alt"></i>
+            </a>
             <button ng-if="choreSum(member)" type="button" class="btn btn-primary" >
               {{ choreSum(member) | duration }}
             </button>

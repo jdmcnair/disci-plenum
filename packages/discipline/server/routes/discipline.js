@@ -1,6 +1,7 @@
 'use strict';
 
 var choreTimes = require('../controllers/choreTimes');
+var choreList = require('../controllers/choreList');
 
 // ChoreTime authorization helpers
 var hasAuthorization = function(req, res, next) {
@@ -30,6 +31,14 @@ module.exports = function(ChoreTimes, app, auth) {
 
   app.route('/choreSessions/:memberId/:subtractedDuration')
     .put(auth.requiresLogin, hasAuthorization, choreTimes.isFamilyMember, choreTimes.subtractFromChores); 
+
+  app.route('/choreList/:memberId')
+    .get(choreList.getMemberChoreList)
+    .put(auth.requiresLogin, hasAuthorization, choreList.saveChoreList);
+
+  // app.route('/choreList/:memberId/task/:taskId')
+  //   .put(auth.requiresLogin, hasAuthorization, choreList.saveChoreTask)
+  //   .delete(auth.requiresLogin, hasAuthorization, choreList.deleteChoreTask); 
 
   // Finish with setting up the choreTimeId param
   app.param('choreTimeId', choreTimes.choreTime);

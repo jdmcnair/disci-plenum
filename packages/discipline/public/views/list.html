@@ -1,0 +1,44 @@
+<section data-ng-controller="ChoreListController"  data-ng-init="findMemberList()">
+  <h2>Chore list for {{member.name}}</h2>
+<!--   <h2>Chore list: {{choreList._id}}</h2>
+  <h2>Returned Chore list: {{returnedChoreList._id}}</h2> -->
+
+  <form ng-if="parentOrAdmin()" name="newTaskForm" class="form-horizontal col-md-8" role="form" data-ng-submit="addTask(newTaskForm.$valid)" novalidate>
+    <div class="form-group" ng-class="{ 'has-error' : submitted && newTaskForm.title.$invalid }">
+      <label mean-token="'create-title'" class="col-md-3 control-label">Task</label>
+      <div class="col-md-6">
+        <input type="text" name="title" class="form-control" data-ng-model="title" id="title" required>
+        <div ng-show="submitted && newTaskForm.title.$invalid" class="help-block">
+          <p ng-show="newTaskForm.title.$error.required">Title is required</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-info">Add Task</button>
+      </div>
+    </div>
+  </form>
+
+
+  <!-- <button class="btn btn-primary" ng-click="addTask()">Add Task</button> -->
+  <form class="form-horizontal col-md-8">
+	<div class="form-group" ng-repeat="task in choreList.tasks | orderBy:'!!verifyingTeacher'">
+		<div class="col-md-3">
+		    <a ng-if="!task.verifyingTeacher" class="pull-right" ng-click="toggleTask(task)">
+		    	<i class="glyphicon" ng-class="task.completed ? 'glyphicon-remove' : 'glyphicon-ok'"></i>
+		    </a>
+		</div>
+		<div class="col-md-6">
+		    <!-- <input type="checkbox" ng-model="task.completed" ng-change="updateList()" /> -->
+		    <label ng-class="{'text-strikethrough': task.completed}">{{task.title}}</label>
+		</div>
+		<div ng-if="parentOrAdmin()" class="col-md-3">
+		    <a ng-click="toggleTaskAcceptance(task)">
+		    	<i class="glyphicon" ng-class="task.verifyingTeacher ? 'glyphicon-thumbs-down' : 'glyphicon-thumbs-up'"></i>
+		    </a>
+		    <a ng-click="removeTask(task)"><i class="glyphicon glyphicon-trash"></i></a>
+		</div>
+	</div>
+  </form>
+
+
+</section>

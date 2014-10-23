@@ -46,6 +46,10 @@ var MemberSchema = new Schema({
   currentSession: {
     type: Schema.ObjectId,
     ref: 'ChoreSession'
+  },
+  currentList: {
+    type: Schema.ObjectId,
+    ref: 'ChoreList'
   }
 });
 

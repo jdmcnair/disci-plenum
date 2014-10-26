@@ -40,7 +40,11 @@ angular.module('mean.discipline').controller('ChoreListController',
       		$scope.choreList = choreList;
       	}
       	else {
-      		$scope.choreList = new ChoreList({ learner: memberId, createdBy: $scope.global.user._id, tasks: [] });
+          var choreList = new ChoreList({ learner: memberId, createdBy: $scope.global.user._id, tasks: [] });
+          choreList.$save();
+
+          $scope.choreList = choreList;
+
       		console.log('choreList null');
       	}
       });
@@ -74,6 +78,9 @@ angular.module('mean.discipline').controller('ChoreListController',
         var description = this.description;
 
         updateListAndSave(function(newList){
+          if(!newList.tasks) {
+            newList.tasks = [];
+          }
           newList.tasks.unshift({ title: title, description: description });
         });
 

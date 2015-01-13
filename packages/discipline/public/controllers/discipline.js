@@ -8,7 +8,10 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
     };
 
     $interval(function(){
-      $scope.$digest();
+      if(!$scope.$$phase)
+      {
+        $scope.$digest();
+      }      
     }, 30000);
 
     function parentOrAdmin() {

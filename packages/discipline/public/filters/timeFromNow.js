@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('mean.discipline').filter('timeFromNow', function () {
-    return function (date, period) {
+    return function (date, period, currentTime) {
     	var dateMoment = moment(date);
     	if(period){
     		dateMoment = dateMoment.add(period, 'seconds');

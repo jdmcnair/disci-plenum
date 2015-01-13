@@ -7,11 +7,10 @@ angular.module('mean.discipline').controller('DisciplineController', ['$scope', 
       name: 'discipline'
     };
 
+    $scope.timestamp = 0;
+
     $interval(function(){
-      if(!$scope.$$phase)
-      {
-        $scope.$digest();
-      }      
+      $scope.timestamp = new Date().getTime();   
     }, 30000);
 
     function parentOrAdmin() {

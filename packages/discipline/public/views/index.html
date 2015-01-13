@@ -21,7 +21,7 @@
             </a>
           </div>    
           <button type="button" class="btn btn-default" ng-if='member.currentSession'>
-            Done {{ member.currentSession.start | timeFromNow: choreSum(member) }}
+            Done {{ member.currentSession.start | timeFromNow: choreSum(member):timestamp }}
           </button> 
         </td>
       </tr>
@@ -68,7 +68,7 @@
               <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
             </a>
             <button type="button" class="btn btn-primary" ng-if='member.currentSession'>
-              Done {{ member.currentSession.start | timeFromNow: choreSum(member) }}
+              Done {{ member.currentSession.start | timeFromNow: choreSum(member):timestamp }}
             </button>
             <button type="button" class="btn btn-primary" 
                 ng-if='member.currentSession && parentOrAdmin()'

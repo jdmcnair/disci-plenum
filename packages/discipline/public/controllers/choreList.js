@@ -40,10 +40,10 @@ angular.module('mean.discipline').controller('ChoreListController',
       		$scope.choreList = choreList;
       	}
       	else {
-          var choreList = new ChoreList({ learner: memberId, createdBy: $scope.global.user._id, tasks: [] });
-          choreList.$save();
+          var newChoreList = new ChoreList({ learner: memberId, createdBy: $scope.global.user._id, tasks: [] });
+          newChoreList.$save();
 
-          $scope.choreList = choreList;
+          $scope.choreList = newChoreList;
 
       		console.log('choreList null');
       	}

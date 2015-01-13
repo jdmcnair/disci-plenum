@@ -1,11 +1,15 @@
 'use strict';
 
-angular.module('mean.discipline').controller('DisciplineController', ['$scope', '$location', '$stateParams', '$http', 'Global', 'Discipline', 'ChoreTime', 'Members', 'MemberChores', 'ChoreSessions',
-  function($scope, $location, $stateParams, $http, Global, Discipline, ChoreTime, Members, MemberChores, ChoreSessions) {
+angular.module('mean.discipline').controller('DisciplineController', ['$scope', '$location', '$stateParams', '$http', '$interval', 'Global', 'Discipline', 'ChoreTime', 'Members', 'MemberChores', 'ChoreSessions',
+  function($scope, $location, $stateParams, $http, $interval, Global, Discipline, ChoreTime, Members, MemberChores, ChoreSessions) {
     $scope.global = Global;
     $scope.package = {
       name: 'discipline'
     };
+
+    $interval(function(){
+      $scope.$digest();
+    }, 30000);
 
     function parentOrAdmin() {
       return $scope.global.isAdmin || $scope.global.member.isParent;

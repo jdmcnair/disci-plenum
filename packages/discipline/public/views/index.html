@@ -21,7 +21,7 @@
             </a>
           </div>    
           <button type="button" class="btn btn-default" ng-if='member.currentSession'>
-            Begun {{ member.currentSession.start | timeFromNow }}
+            Done {{ member.currentSession.start | timeFromNow: choreSum(member) }}
           </button> 
         </td>
       </tr>
@@ -49,7 +49,7 @@
             <button ng-if="choreSum(member)" type="button" class="btn btn-primary" >
               {{ choreSum(member) | duration }}
             </button>
-            <button ng-if="choreSum(member)" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <button ng-if="parentOrAdmin()" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
               <i class="caret"></i>
               <i class="glyphicon glyphicon-arrow-down"></i>
             </button>
@@ -57,6 +57,8 @@
               <li><a href ng-click="subtractTimeAmount(member,1)">Reduce by 1</a></li>
               <li><a href ng-click="subtractTimeAmount(member,5)">Reduce by 5</a></li>
               <li><a href ng-click="subtractTimeAmount(member,10)">Reduce by 10</a></li>
+              <li><a href ng-click="subtractTimeAmount(member,15)">Reduce by 15</a></li>
+              <li><a href ng-click="subtractTimeAmount(member,30)">Reduce by 30</a></li>
             </ul>
           </div>        
         </td>
@@ -66,7 +68,7 @@
               <i class="glyphicon" ng-class="member.currentSession ? 'glyphicon-stop' : 'glyphicon-play'"></i>
             </a>
             <button type="button" class="btn btn-primary" ng-if='member.currentSession'>
-              Begun {{ member.currentSession.start | timeFromNow }}
+              Done {{ member.currentSession.start | timeFromNow: choreSum(member) }}
             </button>
             <button type="button" class="btn btn-primary" 
                 ng-if='member.currentSession && parentOrAdmin()'
